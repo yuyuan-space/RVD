@@ -30,7 +30,8 @@ h1{position:relative;font-size:3rem;line-height:1.08;margin:0 0 20px;letter-spac
 .project-links a,.project-links .disabled{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:40px;padding:8px 17px;border-radius:9px;text-decoration:none;font-weight:650;font-size:.9rem;border:1px solid var(--accent);color:#fff;background:linear-gradient(135deg,var(--accent),#7654e8);transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}
 .project-links a:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(91,92,226,.24)}
 .project-links .disabled{cursor:default;background:#fff;color:var(--ink);border-color:var(--line)}
-.project-links small{font-size:.73rem;font-weight:500;color:var(--muted)}
+.project-links small{font-size:.73rem;font-weight:500;color:inherit;opacity:.78}
+.project-links .disabled small{color:var(--muted);opacity:1}
 nav.toc{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.92);backdrop-filter:blur(9px);border-bottom:1px solid var(--line)}
 nav.toc .wrap{display:flex;flex-wrap:wrap;gap:4px 18px;align-items:center;padding-block:10px}
 nav.toc a{color:var(--muted);text-decoration:none;font-size:.9rem;white-space:nowrap}
@@ -97,15 +98,15 @@ footer{color:var(--muted);font-size:.85rem;text-align:center;padding:40px 0 60px
     </div>
     <p class="affiliations"><sup>1</sup>Adobe &nbsp;&nbsp; <sup>2</sup>Purdue University</p>
     <div class="project-links" aria-label="Project resources">
-      <a href="paper.pdf" aria-label="Read the paper">Paper <span aria-hidden="true">&#8599;</span></a>
-      <span class="disabled">Code <small>under internal review</small></span>
+      <a href="https://arxiv.org/abs/2606.00499" target="_blank" rel="noopener" aria-label="arXiv paper coming soon">arXiv <small>soon</small> <span aria-hidden="true">&#8599;</span></a>
+      <span class="disabled">Code <small>soon</small></span>
     </div>
     <p class="tldr"><strong>TL;DR</strong>RVD turns a video's dynamics into an editable token: change what happens, retime how it unfolds, or replay the same motion in a completely new visual world.</p>
   </div>
 </header>
 
 <nav class="toc"><div class="wrap">
-  <a href="paper.pdf">Paper</a>
+  <a href="https://arxiv.org/abs/2606.00499" target="_blank" rel="noopener">arXiv</a>
   <a href="#overview">Overview</a>
   <a href="#renderer">Re-rendering vs. baselines</a>
   <a href="#editor">Dynamics editing vs. baselines</a>
@@ -121,9 +122,12 @@ footer{color:var(--muted);font-size:.85rem;text-align:center;padding:40px 0 60px
   <div class="vbox" id="teaserBox"></div>
   <p class="cap">One representation, three kinds of control. <b>Left:</b> dynamics editing (the dog still pounces on its toy, but the toy is no longer torn apart and stays intact). <b>Middle:</b> training-free retiming (the same run played at 0.5&times;). <b>Right:</b> re-rendering (the same whisking motion performed by robotic arms). Top row: source video. Bottom row: RVD.</p>
 
-  <h2 style="margin-top:34px"><span class="num">0</span>Method overview</h2>
-  <p class="lead">RVD splits a video into two parts: its <b>visual context</b> (the first frame and a caption: what the scene looks like) and a compact <b>dynamics token</b> (how the scene moves and changes over time). This split is learned by <b>self-supervised video reconstruction</b>: a renderer must rebuild the original clip from the first frame plus the token. The first frame already gives the appearance, so the token only has to carry the motion. A language-guided <b>editor</b> can then change this compact token (for example, "cancel the cut" or "slow the run to a walk"), and the renderer turns the edited token back into a video.</p>
-  <div class="figure"><img src="images/method.png" alt="RVD method overview: (a) dynamics-conditioned renderer, (b) dynamics-token editor"></div>
+  <!-- Keep this block ready for the arXiv release. Remove `hidden` to restore it. -->
+  <div id="methodOverview" hidden>
+    <h2 style="margin-top:34px"><span class="num">0</span>Method overview</h2>
+    <p class="lead">RVD splits a video into two parts: its <b>visual context</b> (the first frame and a caption: what the scene looks like) and a compact <b>dynamics token</b> (how the scene moves and changes over time). This split is learned by <b>self-supervised video reconstruction</b>: a renderer must rebuild the original clip from the first frame plus the token. The first frame already gives the appearance, so the token only has to carry the motion. A language-guided <b>editor</b> can then change this compact token (for example, "cancel the cut" or "slow the run to a walk"), and the renderer turns the edited token back into a video.</p>
+    <div class="figure"><img src="images/method.png" alt="RVD method overview: (a) dynamics-conditioned renderer, (b) dynamics-token editor"></div>
+  </div>
 </section>
 
 <section id="renderer">
