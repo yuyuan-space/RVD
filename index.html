@@ -27,11 +27,11 @@ h1{position:relative;font-size:3rem;line-height:1.08;margin:0 0 20px;letter-spac
 .tldr{position:relative;max-width:840px;margin:18px auto 0;padding:15px 20px;color:#37384c;font-size:1.05rem;line-height:1.55;background:linear-gradient(125deg,#efefff,#fff4f0);border:1px solid rgba(91,92,226,.15);border-radius:12px;text-align:left}
 .tldr strong{color:var(--accent);font-size:.78rem;letter-spacing:.09em;text-transform:uppercase;margin-right:9px}
 .project-links{position:relative;display:flex;justify-content:center;align-items:center;gap:10px;margin-top:18px}
-.project-links a,.project-links .disabled{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:40px;padding:8px 17px;border-radius:9px;text-decoration:none;font-weight:650;font-size:.9rem;border:1px solid var(--accent);color:#fff;background:linear-gradient(135deg,var(--accent),#7654e8);transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}
+.project-links a{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:40px;padding:8px 17px;border-radius:9px;text-decoration:none;font-weight:650;font-size:.9rem;border:1px solid var(--accent);color:#fff;background:linear-gradient(135deg,var(--accent),#7654e8);transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}
 .project-links a:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(91,92,226,.24)}
-.project-links .disabled{cursor:default;background:#fff;color:var(--ink);border-color:var(--line)}
+.project-links a.secondary{background:#fff;color:var(--ink);border-color:var(--line)}
+.project-links a.secondary:hover{color:var(--accent);border-color:rgba(91,92,226,.4)}
 .project-links small{font-size:.73rem;font-weight:500;color:inherit;opacity:.78}
-.project-links .disabled small{color:var(--muted);opacity:1}
 nav.toc{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.92);backdrop-filter:blur(9px);border-bottom:1px solid var(--line)}
 nav.toc .wrap{display:flex;flex-wrap:wrap;gap:4px 18px;align-items:center;padding-block:10px}
 nav.toc a{color:var(--muted);text-decoration:none;font-size:.9rem;white-space:nowrap}
@@ -99,7 +99,7 @@ footer{color:var(--muted);font-size:.85rem;text-align:center;padding:40px 0 60px
     <p class="affiliations"><sup>1</sup>Adobe &nbsp;&nbsp; <sup>2</sup>Purdue University</p>
     <div class="project-links" aria-label="Project resources">
       <a href="https://arxiv.org/abs/2606.00499" target="_blank" rel="noopener" aria-label="arXiv paper coming soon">arXiv <small>soon</small> <span aria-hidden="true">&#8599;</span></a>
-      <span class="disabled">Code <small>soon</small></span>
+      <a class="secondary" href="https://github.com/pandayuanyu/RVD" target="_blank" rel="noopener">Code <span aria-hidden="true">&#8599;</span></a>
     </div>
     <p class="tldr"><strong>TL;DR</strong>RVD turns a video's dynamics into an editable token: change what happens, retime how it unfolds, or replay the same motion in a completely new visual world.</p>
   </div>
@@ -107,6 +107,7 @@ footer{color:var(--muted);font-size:.85rem;text-align:center;padding:40px 0 60px
 
 <nav class="toc"><div class="wrap">
   <a href="https://arxiv.org/abs/2606.00499" target="_blank" rel="noopener">arXiv</a>
+  <a href="https://github.com/pandayuanyu/RVD" target="_blank" rel="noopener">Code</a>
   <a href="#overview">Overview</a>
   <a href="#renderer">Re-rendering vs. baselines</a>
   <a href="#editor">Dynamics editing vs. baselines</a>
