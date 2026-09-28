@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RVD: Reimagine Video Dynamics</title>
+<meta name="description" content="Reimagine Video Dynamics disentangles editable video dynamics from visual context for dynamics editing, retiming, and appearance-controlled re-rendering.">
+<style>
+:root{
+  --ink:#191a29; --muted:#62667a; --line:#e7e6f0; --bg:#ffffff; --soft:#f7f7fc;
+  --accent:#5b5ce2; --accent-2:#ff6846; --accent-soft:#f0efff; --rvd:#f05a3c;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(circle at 12% 3%,rgba(91,92,226,.09),transparent 25rem),radial-gradient(circle at 92% 12%,rgba(255,104,70,.08),transparent 24rem),#fff;color:var(--ink);
+  font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif}
+.wrap{max-width:1280px;margin:0 auto;padding:0 24px}
+header.hero{padding:62px 24px 32px;text-align:center}
+.hero-inner{position:relative;max-width:1180px;margin:0 auto;padding:38px 34px 32px;background:rgba(255,255,255,.84);border:1px solid rgba(91,92,226,.15);border-radius:24px;box-shadow:0 18px 52px rgba(57,50,130,.09);overflow:hidden}
+.hero-inner:before{content:"";position:absolute;width:280px;height:280px;left:-150px;top:-175px;border-radius:50%;background:rgba(91,92,226,.13);filter:blur(2px);pointer-events:none}
+.hero-inner:after{content:"";position:absolute;width:220px;height:220px;right:-135px;bottom:-155px;border-radius:50%;background:rgba(255,104,70,.14);pointer-events:none}
+h1{position:relative;font-size:3rem;line-height:1.08;margin:0 0 20px;letter-spacing:-.045em}
+.authors{position:relative;display:flex;flex-wrap:nowrap;justify-content:center;gap:0 17px;width:100%;margin:0 auto 7px;font-size:.95rem;white-space:nowrap}
+.authors a{color:var(--ink);text-decoration:none;font-weight:600;border-bottom:1px solid transparent}
+.authors a:hover{color:var(--accent);border-bottom-color:var(--accent)}
+.affiliations{position:relative;margin:6px 0 0;color:var(--muted);font-size:.91rem}
+.tldr{position:relative;max-width:840px;margin:18px auto 0;padding:15px 20px;color:#37384c;font-size:1.05rem;line-height:1.55;background:linear-gradient(125deg,#efefff,#fff4f0);border:1px solid rgba(91,92,226,.15);border-radius:12px;text-align:left}
+.tldr strong{color:var(--accent);font-size:.78rem;letter-spacing:.09em;text-transform:uppercase;margin-right:9px}
+.project-links{position:relative;display:flex;justify-content:center;align-items:center;gap:10px;margin-top:18px}
+.project-links a,.project-links .disabled{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:40px;padding:8px 17px;border-radius:9px;text-decoration:none;font-weight:650;font-size:.9rem;border:1px solid var(--accent);color:#fff;background:linear-gradient(135deg,var(--accent),#7654e8);transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}
+.project-links a:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(91,92,226,.24)}
+.project-links .disabled{cursor:default;background:#fff;color:var(--ink);border-color:var(--line)}
+.project-links small{font-size:.73rem;font-weight:500;color:var(--muted)}
+nav.toc{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.92);backdrop-filter:blur(9px);border-bottom:1px solid var(--line)}
+nav.toc .wrap{display:flex;flex-wrap:wrap;gap:4px 18px;align-items:center;padding-block:10px}
+nav.toc a{color:var(--muted);text-decoration:none;font-size:.9rem;white-space:nowrap}
+nav.toc a:hover{color:var(--accent)}
+button{font:inherit;cursor:pointer}
+section{scroll-margin-top:64px;padding:46px 0 10px;border-top:1px solid var(--line);margin-top:30px}
+section:first-of-type{border-top:0}
+h2{font-size:1.6rem;margin:0 0 6px;text-align:center}
+h2 .num{color:var(--accent);margin-right:8px}
+.lead{color:var(--muted);max-width:900px;margin:0 auto 18px;text-align:center}
+.note{font-size:.88rem;color:var(--muted);background:var(--soft);border-left:3px solid var(--accent);padding:8px 12px;margin:10px 0 18px;border-radius:0 6px 6px 0}
+.vbox{position:relative;width:100%;background:#fff;line-height:0;border-radius:10px;overflow:hidden;box-shadow:0 5px 18px rgba(49,45,104,.06)}
+.vbox video{width:100%;height:auto;display:block;cursor:pointer}
+.vbar{display:flex;align-items:center;gap:10px;line-height:1;padding:5px 2px 0;font-size:.78rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.vbar button{font-size:.85rem;border:1px solid var(--line);background:#fff;border-radius:5px;width:28px;height:22px;padding:0;font-size:.7rem;color:var(--ink)}
+.vbar input[type=range]{flex:1;min-width:60px;accent-color:var(--accent);height:14px}
+.vbar .fr{min-width:78px;text-align:right}
+.lab{position:absolute;line-height:1.2;font-size:.78rem;font-weight:600;color:#fff;background:rgba(15,18,25,.68);padding:3px 7px;border-radius:0 0 6px 0;pointer-events:none;white-space:nowrap}
+.lab.rvd{background:var(--rvd)}
+.tabs{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 12px;justify-content:center}
+.tab{border:1px solid var(--line);background:#fff;border-radius:8px;padding:6px 12px;font-size:.9rem;color:var(--ink)}
+.tab .t{display:block;font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;line-height:1.1}
+.tab.on{border-color:rgba(91,92,226,.45);background:linear-gradient(135deg,#efefff,#f8f1ff);color:#3e3fc1}
+#editorTabs{flex-wrap:nowrap;gap:4px}
+#editorTabs .tab{flex:1 1 0;min-width:0;padding:5px 4px;font-size:.78rem;line-height:1.25;text-align:center}
+@media (max-width:860px){#editorTabs{flex-wrap:wrap} #editorTabs .tab{flex:0 0 auto}}
+.instr{font-size:.95rem;margin:10px auto 0;text-align:center;max-width:960px}
+.instr b{color:var(--accent)}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:26px 22px}
+.card h3{font-size:1rem;margin:0 0 6px;text-align:center}
+.card .instr{font-size:.88rem;color:var(--muted);margin-top:6px}
+.stack{display:flex;flex-direction:column;gap:30px}
+.figure{max-width:760px;margin:0 auto}
+.figure img{width:100%;height:auto;border:1px solid var(--line);border-radius:12px;box-shadow:0 10px 30px rgba(49,45,104,.08)}
+.cap{font-size:.88rem;color:var(--muted);margin:6px auto 0;text-align:center;max-width:960px}
+.three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:18px 0 4px}
+.three div{background:var(--soft);border-radius:8px;padding:12px 14px;font-size:.92rem}
+.three b{display:block;margin-bottom:2px}
+details{text-align:center;margin-top:6px;font-size:.85rem;color:var(--muted)}
+summary{cursor:pointer}
+.bibtex-wrap{position:relative;max-width:900px;margin:20px auto 10px}
+.bibtex-wrap pre{margin:0;padding:22px 70px 22px 24px;overflow-x:auto;background:#1d1b2e;color:#f1efff;border:1px solid #302d4a;border-radius:13px;box-shadow:0 12px 34px rgba(49,45,104,.15);font:14px/1.55 "SFMono-Regular",Consolas,"Liberation Mono",monospace;text-align:left}
+.copy-bib{position:absolute;right:12px;top:12px;padding:6px 10px;border:1px solid rgba(255,255,255,.18);border-radius:7px;background:rgba(255,255,255,.09);color:#fff;font-size:.78rem}
+.copy-bib:hover{background:rgba(255,255,255,.16)}
+footer{color:var(--muted);font-size:.85rem;text-align:center;padding:40px 0 60px;border-top:1px solid var(--line);margin-top:40px}
+@media (max-width:1050px){.authors{flex-wrap:wrap;gap:5px 18px;max-width:900px;white-space:normal}}
+@media (max-width:860px){nav.toc{position:static}.grid2,.three{grid-template-columns:1fr}header.hero{padding:28px 14px 18px}.hero-inner{padding:28px 17px 24px;border-radius:18px}h1{font-size:2.05rem}.authors{font-size:1rem}.tldr{text-align:left;font-size:.96rem;padding:13px 15px}.project-links{flex-wrap:wrap}.lab{font-size:.62rem;padding:2px 4px}.bibtex-wrap pre{padding:18px 16px;padding-top:52px;font-size:12px}.copy-bib{right:10px;top:10px}}
+</style>
+</head>
+<body>
+
+<header class="hero wrap">
+  <div class="hero-inner">
+    <h1>Reimagine Video Dynamics</h1>
+    <div class="authors" aria-label="Authors">
+      <a href="https://yuyuanspace.com/" target="_blank" rel="noopener">Yu Yuan<sup>1,2</sup></a>
+      <a href="https://scholar.google.com/citations?user=HipzTLoAAAAJ&amp;hl=en" target="_blank" rel="noopener">Yawen Lu<sup>1</sup></a>
+      <a href="https://guoxiansong.github.io/homepage/index.html" target="_blank" rel="noopener">Guoxian Song<sup>1</sup></a>
+      <a href="https://scholar.google.com/citations?user=PxD5DrYAAAAJ&amp;hl=en" target="_blank" rel="noopener">Kevin Duarte<sup>1</sup></a>
+      <a href="https://scholar.google.com/citations?hl=en&amp;user=BuKGWPEAAAAJ" target="_blank" rel="noopener">Ratheesh Kalarot<sup>1</sup></a>
+      <a href="https://boese0601.github.io/" target="_blank" rel="noopener">Di Chang<sup>1</sup></a>
+      <a href="https://xijun-w.github.io/" target="_blank" rel="noopener">Xijun Wang<sup>2</sup></a>
+      <a href="https://engineering.purdue.edu/ChanGroup/stanleychan.html" target="_blank" rel="noopener">Stanley H. Chan<sup>2</sup></a>
+    </div>
+    <p class="affiliations"><sup>1</sup>Adobe &nbsp;&nbsp; <sup>2</sup>Purdue University</p>
+    <div class="project-links" aria-label="Project resources">
+      <a href="paper.pdf" aria-label="Read the paper">Paper <span aria-hidden="true">&#8599;</span></a>
+      <span class="disabled">Code <small>under internal review</small></span>
+    </div>
+    <p class="tldr"><strong>TL;DR</strong>RVD turns a video's dynamics into an editable token: change what happens, retime how it unfolds, or replay the same motion in a completely new visual world.</p>
+  </div>
+</header>
+
+<nav class="toc"><div class="wrap">
+  <a href="paper.pdf">Paper</a>
+  <a href="#overview">Overview</a>
+  <a href="#renderer">Re-rendering vs. baselines</a>
+  <a href="#editor">Dynamics editing vs. baselines</a>
+  <a href="#dynamics">More dynamics edits</a>
+  <a href="#retiming">Retiming</a>
+  <a href="#appearance">More re-rendering</a>
+  <a href="#bibtex">BibTeX</a>
+</div></nav>
+
+<main class="wrap">
+
+<section id="overview">
+  <div class="vbox" id="teaserBox"></div>
+  <p class="cap">One representation, three kinds of control. <b>Left:</b> dynamics editing (the dog still pounces on its toy, but the toy is no longer torn apart and stays intact). <b>Middle:</b> training-free retiming (the same run played at 0.5&times;). <b>Right:</b> re-rendering (the same whisking motion performed by robotic arms). Top row: source video. Bottom row: RVD.</p>
+
+  <h2 style="margin-top:34px"><span class="num">0</span>Method overview</h2>
+  <p class="lead">RVD splits a video into two parts: its <b>visual context</b> (the first frame and a caption: what the scene looks like) and a compact <b>dynamics token</b> (how the scene moves and changes over time). This split is learned by <b>self-supervised video reconstruction</b>: a renderer must rebuild the original clip from the first frame plus the token. The first frame already gives the appearance, so the token only has to carry the motion. A language-guided <b>editor</b> can then change this compact token (for example, "cancel the cut" or "slow the run to a walk"), and the renderer turns the edited token back into a video.</p>
+  <div class="figure"><img src="images/method.png" alt="RVD method overview: (a) dynamics-conditioned renderer, (b) dynamics-token editor"></div>
+</section>
+
+<section id="renderer">
+  <h2><span class="num">1</span>Appearance-controlled re-rendering: comparison with baselines</h2>
+  <p class="lead">The dynamics token of the source video is kept <b>fixed</b>; only the visual context (edited first frame and caption) changes. RVD should change the foreground, background, or style while reproducing the source motion and its timing exactly. Watch whether each method keeps the original motion, including hand trajectories, gait phase, and head turns, and whether it stays temporally stable.</p>
+  <div class="tabs" id="rendererTabs"></div>
+  <div class="vbox" id="rendererBox"></div>
+  <p class="instr" id="rendererInstr"></p>
+</section>
+
+<section id="editor">
+  <h2><span class="num">2</span>Video dynamics editing: comparison with baselines</h2>
+  <p class="lead">Here the instruction asks to change <b>how the scene evolves</b>, not how it looks. RVD edits the dynamics token with the language-guided editor and renders it in the source scene. Appearance editors tend to reproduce the source motion, or they drift in identity and scene.</p>
+  <div class="tabs" id="editorTabs"></div>
+  <div class="vbox" id="editorBox"></div>
+  <p class="instr" id="editorInstr"></p>
+</section>
+
+<section id="dynamics">
+  <h2><span class="num">3</span>More Video Dynamics Edits by RVD</h2>
+  <p class="lead">Additional instruction-driven dynamics edits across edit families: state changes (open/closed, cut/whole, broken/intact), interactions (hold/throw), locomotion (walk/run, avoiding an obstacle), and animal behavior (active/resting).</p>
+  <div class="grid2" id="dynamicsGrid"></div>
+</section>
+
+<section id="retiming">
+  <h2><span class="num">4</span>Training-Free Retiming in Dynamics-Token Space</h2>
+  <p class="lead">Because the dynamics token keeps an explicit temporal axis, speed can be changed by <b>resampling the token over time</b>. No editor and no extra training are used, and the renderer is the same frozen one. <b>0.5&times;</b> stretches the token (nearest-neighbor resampling followed by light temporal smoothing), so the clip covers only the first half of the original motion. <b>2&times;</b> subsamples every other token step, so the full motion is completed in the first half of the clip. All four panels have the same length and play in sync: compare how far the motion has progressed at the same moment.</p>
+  <div class="stack" id="retimingStack"></div>
+</section>
+
+<section id="appearance">
+  <h2><span class="num">5</span>More Appearance-Controlled Re-Rendering by RVD</h2>
+  <p class="lead">For each source video, the <b>same</b> dynamics token is rendered under three new visual contexts: a new foreground subject, a new background, and a new global style. The motion, including its timing, should match the source in all three.</p>
+  <div class="stack" id="appearanceStack"></div>
+</section>
+
+<section id="bibtex">
+  <h2>BibTeX</h2>
+  <p class="lead">If you find RVD useful, please cite our work.</p>
+  <div class="bibtex-wrap">
+    <button class="copy-bib" id="copyBib" type="button">Copy</button>
+    <pre><code id="bibEntry">@article{Yuan_2026_RVD,
+  title={{Reimagine Video Dynamics}},
+  author={Yuan, Yu and Lu, Yawen and Song, Guoxian and Duarte, Kevin and Kalarot, Ratheesh and Chang, Di and Wang, Xijun and Chan, Stanley H.},
+  journal={arXiv preprint arXiv:},
+  year={2026}
+}</code></pre>
+  </div>
+</section>
+
+</main>
+
+<footer>Reimagine Video Dynamics &middot; Project page and supplementary results. Videos are provided for research communication.</footer>
+
+<script>
+const META = {"renderer": [{"id": "renderer_01", "type": "Foreground", "short": "Girl → boy in a light-blue cardigan", "prompt": "Replace the young girl with a young boy of similar age, wearing a light blue cardigan, with short dark hair, seated in the exact same position and posture, maintaining the same hand placement and body silhouette."}, {"id": "renderer_02", "type": "Foreground", "short": "Person → humanoid robot", "prompt": "Replace the person wearing the green apron with a life-sized, bipedal robot that has a humanoid form, wearing the same green apron and white shirt, positioned identically with the same posture and hand placement, holding the egg and wooden spoon in the same way."}, {"id": "renderer_03", "type": "Foreground", "short": "Young woman → young man", "prompt": "Replace the young woman with a young man wearing a loose blue sweatshirt and jeans, standing in the exact same position, size, and pose, holding the bowling ball in his left hand, with the same facial expression and body orientation."}, {"id": "renderer_04", "type": "Foreground", "short": "Woman → humanoid robot", "prompt": "Replace the woman with a life-sized, realistic-looking humanoid robot with a beige, smooth synthetic skin, silver joints at the elbows and wrists, and a slightly rounded head with glowing blue eyes, positioned identically in the same seated posture at the table, with the same arm and hand orientation as the original woman."}, {"id": "renderer_05", "type": "Foreground", "short": "Gloved hands → robotic arms", "prompt": "Replace the pair of hands wearing black gloves with a pair of robotic arms covered in black, flexible, skin-like material, maintaining the exact same position, size, and silhouette as the original hands, with the same grip on the knife and lemon."}, {"id": "renderer_06", "type": "Background", "short": "Forest → rocky mountain meadow", "prompt": "Replace the entire background with a rocky, sunlit meadow at the edge of a mountain range, featuring scattered boulders and dry grass, while keeping the deer in the exact same position, size, and posture, with its head raised and ears alert, facing forward."}, {"id": "renderer_07", "type": "Background", "short": "Dark training pitch → sunny urban field", "prompt": "Replace the entire background with a bright, sunny urban soccer field surrounded by a tall chain-link fence, with modern apartment buildings visible in the distance under a clear blue sky, while keeping the foreground subject in the exact same position, size, and shape."}, {"id": "renderer_08", "type": "Background", "short": "River bank → misty mangrove forest", "prompt": "Replace the entire background with a dense, misty mangrove forest along a narrow waterway, featuring tall, tangled trees and still, dark water, while keeping the boat in the exact same position, size, and silhouette."}, {"id": "renderer_09", "type": "Background", "short": "Sofa → sunlit carpeted living room", "prompt": "Replace the light-colored sofa background with a soft, beige carpeted floor in a sunlit living room, keeping the cat in the exact same position, size, and posture, with the same lighting and camera framing."}, {"id": "renderer_10", "type": "Style", "short": "3D claymation", "prompt": "Redraw the ENTIRE image in 3D claymation style: a stop-motion claymation / plasticine 3D render look. CRITICAL: keep the exact same composition, and keep the main foreground subject in the SAME position, size, and pose (do not move, rescale, re-pose or reshape it, do not change the scene layout) — change ONLY the artistic/visual style of the whole image."}], "editor": [{"id": "editor_01", "short": "Broken → intact", "prompt": "Cancel the impact so the object or target stays whole, intact, and undisturbed throughout."}, {"id": "editor_02", "short": "Punch → no impact", "prompt": "Cancel the impact so the object or target stays whole, intact, and undisturbed throughout."}, {"id": "editor_03", "short": "Run → walk", "prompt": "Slow the subject's fast locomotion down to an ordinary walking pace."}, {"id": "editor_04", "short": "Move → avoid", "prompt": "Make the moving subject brake and stop to avoid an obstacle in its path, with no collision."}, {"id": "editor_05", "short": "Cut → whole", "prompt": "Cancel the cut so the object stays whole and uncut the whole time."}, {"id": "editor_06", "short": "Drive → stop at obstacle", "prompt": "Make the moving subject brake and stop to avoid an obstacle in its path, with no collision."}, {"id": "editor_07", "short": "Active → sleeping", "prompt": "Turn the animal's awake, active behavior into resting or sleeping: it settles down, becomes still, and its motion fades to none."}, {"id": "editor_08", "short": "Walk → stop at obstacle", "prompt": "Make the moving subject brake and stop to avoid an obstacle in its path, with no collision."}, {"id": "editor_09", "short": "Walk → run", "prompt": "Speed the subject's walking up into running or fast locomotion."}, {"id": "editor_10", "short": "Open → closed", "prompt": "Cancel the opening so the object stays closed the whole time."}], "dynamics": [{"id": "dynamics_01", "short": "Open → closed", "prompt": "Cancel the opening so the object stays closed the whole time."}, {"id": "dynamics_02", "short": "Cycling → stop at obstacle", "prompt": "Make the moving subject brake and stop to avoid an obstacle in its path, with no collision."}, {"id": "dynamics_03", "short": "Cut → whole", "prompt": "Cancel the cut so the object stays whole and uncut the whole time."}, {"id": "dynamics_04", "short": "Walking → lying asleep", "prompt": "Turn the animal's awake, active behavior into resting or sleeping: it settles down, becomes still, and its motion fades to none."}, {"id": "dynamics_05", "short": "Impact → no impact", "prompt": "Cancel the impact so the object or target stays whole, intact, and undisturbed throughout."}, {"id": "dynamics_06", "short": "Active → sleeping", "prompt": "Turn the animal's awake, active behavior into resting or sleeping: it settles down, becomes still, and its motion fades to none."}, {"id": "dynamics_07", "short": "Run → walk", "prompt": "Slow the subject's fast locomotion down to an ordinary walking pace."}, {"id": "dynamics_08", "short": "Skateboarding → stop at obstacle", "prompt": "Make the moving subject brake and stop to avoid an obstacle in its path, with no collision."}, {"id": "dynamics_09", "short": "Open → closed", "prompt": "Cancel the opening so the object stays closed the whole time."}, {"id": "dynamics_10", "short": "Throw → hold", "prompt": "Cancel the release so the object stays held the whole time and never leaves the hand."}], "retiming": [{"id": "retiming_01", "short": "Trail running"}, {"id": "retiming_02", "short": "Floor dance"}, {"id": "retiming_03", "short": "Walking in a snowy plaza"}, {"id": "retiming_04", "short": "Cars on a street"}, {"id": "retiming_05", "short": "Seaside jogging"}], "appearance": [{"id": "appearance_01", "short": "Unpacking a box", "fg": "Woman → young man", "bg": "Cozy library", "style": "Ink wash"}, {"id": "appearance_02", "short": "Child and dog high-five", "fg": "Child → small robot", "bg": "Snowy park", "style": "Cyberpunk"}, {"id": "appearance_03", "short": "Horse in a paddock", "fg": "Horse → donkey", "bg": "Misty forest at dawn", "style": "Cyberpunk"}, {"id": "appearance_04", "short": "Cat waking up", "fg": "Tabby cat → fox", "bg": "Sunlit meadow", "style": "Ink wash"}, {"id": "appearance_05", "short": "Girl petting a pony", "fg": "Pony → donkey", "bg": "Sunny beach", "style": "Ink wash"}, {"id": "appearance_06", "short": "Grazing sheep", "fg": "Sheep → donkey", "bg": "Pine-forest clearing", "style": "Claymation"}, {"id": "appearance_07", "short": "Cat on a table", "fg": "Cat → dog", "bg": "Cozy living room", "style": "Claymation"}, {"id": "appearance_08", "short": "Resting wolf", "fg": "Wolf → red fox", "bg": "Snowy forest floor", "style": "Cyberpunk"}, {"id": "appearance_09", "short": "Slicing a tomato", "fg": "Hands → robot hands", "bg": "Outdoor garden table", "style": "Ink wash"}, {"id": "appearance_10", "short": "Panting dog", "fg": "Dog → fox", "bg": "Sandy beach", "style": "Claymation"}]};
+const G = 4; // gap in px used when compositing
+function addLabels(box, labels, cols, W, H, rvdIdx){
+  const rows = Math.ceil(labels.length/cols), OW = cols*W+(cols-1)*G, OH = rows*H+(rows-1)*G;
+  labels.forEach((t,k)=>{
+    const r=Math.floor(k/cols), c=k%cols, s=document.createElement('span');
+    s.className='lab'+(rvdIdx.includes(k)?' rvd':''); s.textContent=t;
+    s.style.left=(c*(W+G)/OW*100)+'%'; s.style.top=(r*(H+G)/OH*100)+'%';
+    box.appendChild(s);
+  });
+}
+function makeVideo(id, lazy){
+  const v=document.createElement('video');
+  v.muted=true; v.loop=true; v.playsInline=true; v.controls=false;
+  v.setAttribute('muted',''); v.setAttribute('playsinline','');
+  v.preload = lazy ? 'none' : 'auto';
+  v.poster='videos/'+id+'.jpg';
+  v.dataset.src='videos/'+id+'.mp4';
+  if(!lazy){ v.src=v.dataset.src; }
+  return v;
+}
+function vbox(container, id, labels, cols, W, H, rvdIdx, lazy){
+  container.innerHTML=''; const v=makeVideo(id, lazy); container.appendChild(v);
+  addLabels(container, labels, cols, W, H, rvdIdx); observe(v);
+  // slim control bar: play/pause, frame-accurate scrubber, frame counter
+  const bar=document.createElement('div'); bar.className='vbar';
+  bar.innerHTML='<button title="Play / pause">&#10074;&#10074;</button><button title="Previous frame">&lsaquo;</button><button title="Next frame">&rsaquo;</button><input type="range" min="0" max="80" step="1" value="0"><span class="fr">frame 1 / 81</span>';
+  container.after(bar); if(container._bar) container._bar.remove(); container._bar=bar;
+  const [bp,bprev,bnext]=bar.querySelectorAll('button'), rg=bar.querySelector('input'), fr=bar.querySelector('.fr');
+  const NF=81, FPS=16;
+  const upd=()=>{ const f=Math.min(NF-1,Math.floor(v.currentTime*FPS+1e-3)); rg.value=f; fr.textContent='frame '+(f+1)+' / '+NF; bp.innerHTML=v.paused?'&#9654;':'&#10074;&#10074;'; };
+  v.addEventListener('timeupdate',upd); v.addEventListener('play',upd); v.addEventListener('pause',upd);
+  const seek=f=>{ if(!v.src) v.src=v.dataset.src; v.pause(); v.currentTime=(Math.max(0,Math.min(NF-1,f))+0.5)/FPS; upd(); };
+  const toggle=()=>{ if(!v.src) v.src=v.dataset.src; if(v.paused){ const p=v.play(); if(p) p.catch(()=>{}); } else v.pause(); };
+  bp.onclick=toggle; v.onclick=toggle;
+  bprev.onclick=()=>seek(parseInt(rg.value)-1); bnext.onclick=()=>seek(parseInt(rg.value)+1);
+  rg.oninput=()=>seek(parseInt(rg.value));
+  let raf=()=>{ if(!v.paused) upd(); requestAnimationFrame(raf); }; requestAnimationFrame(raf);
+  return v;
+}
+// Play only what is on screen (keeps playback smooth on any laptop)
+const io = new IntersectionObserver(es=>{
+  es.forEach(e=>{
+    const v=e.target;
+    if(e.isIntersecting){
+      if(!v.src){ v.src=v.dataset.src; }
+      const p=v.play(); if(p) p.catch(()=>{});
+    } else { v.pause(); }
+  });
+},{threshold:0.25});
+function observe(v){ io.observe(v); }
+
+// Teaser
+(()=>{ const b=document.getElementById('teaserBox');
+  vbox(b,'teaser',['Source Video','Source Video','Source Video','RVD* Dynamics Editing','RVD* 0.5× Retiming','RVD* Appearance Re-rendering'],3,480,272,[3,4,5],false);
+})();
+
+// Tabbed comparisons
+function tabs(section, items, labelsFn, cols, W, H, rvdIdx, titleFn, instrFn){
+  const tb=document.getElementById(section+'Tabs'), box=document.getElementById(section+'Box'), ins=document.getElementById(section+'Instr');
+  items.forEach((it,i)=>{
+    const b=document.createElement('button'); b.className='tab'+(i?'':' on');
+    b.innerHTML=titleFn(it,i);
+    b.onclick=()=>{ tb.querySelectorAll('.tab').forEach(x=>x.classList.remove('on')); b.classList.add('on'); show(i); };
+    tb.appendChild(b);
+  });
+  function show(i){ const it=items[i]; const v=vbox(box,it.id,labelsFn(it),cols,W,H,rvdIdx,false); ins.innerHTML=instrFn(it);
+    const p=v.play(); if(p) p.catch(()=>{}); }
+  show(0);
+}
+const titleCase = s => s.split(' ').map(w => w.split('-').map(p => p ? p[0].toUpperCase()+p.slice(1) : p).join('-')).join(' ');
+const clean = s => s.split('CRITICAL')[0].trim();
+tabs('renderer', META.renderer, ()=>['Input','RVD (ours)','Ditto','InsV2V','OmniVideo2','STDF','VideoGrain','VINO'], 4,480,272,[1],
+  (it,i)=>`<span class="t">${it.type}</span>Case ${i+1}`,
+  it=>`<b>${it.type} edit:</b> ${it.short}.<details><summary>Full edit instruction given to the baselines</summary>${clean(it.prompt)}</details>`);
+tabs('editor', META.editor, ()=>['Input','RVD (ours)','Ditto','OmniVideo2','VINO'], 5,416,240,[1],
+  (it,i)=>`<span class="t">Case ${i+1}</span>${titleCase(it.short)}`,
+  it=>`<b>Instruction:</b> &ldquo;${it.prompt}&rdquo;`);
+
+// Galleries
+const dg=document.getElementById('dynamicsGrid');
+META.dynamics.forEach((it,i)=>{
+  const c=document.createElement('div'); c.className='card';
+  c.innerHTML=`<h3>${i+1}. ${titleCase(it.short)}</h3>`; const b=document.createElement('div'); b.className='vbox'; c.appendChild(b);
+  const p=document.createElement('p'); p.className='instr'; p.innerHTML=`&ldquo;${it.prompt}&rdquo;`; c.appendChild(p);
+  dg.appendChild(c); vbox(b,it.id,['Input','RVD (edited dynamics)'],2,640,368,[1],true);
+});
+const rs=document.getElementById('retimingStack');
+META.retiming.forEach((it,i)=>{
+  const c=document.createElement('div'); c.className='card'; c.innerHTML=`<h3>${i+1}. ${titleCase(it.short)}</h3>`;
+  const b=document.createElement('div'); b.className='vbox'; c.appendChild(b); rs.appendChild(c);
+  vbox(b,it.id,['Input','RVD reconstruction (1×)','RVD 0.5× (slower)','RVD 2× (faster)'],4,480,272,[2,3],true);
+});
+const as=document.getElementById('appearanceStack');
+META.appearance.forEach((it,i)=>{
+  const c=document.createElement('div'); c.className='card'; c.innerHTML=`<h3>${i+1}. ${titleCase(it.short)}</h3>`;
+  const b=document.createElement('div'); b.className='vbox'; c.appendChild(b); as.appendChild(c);
+  vbox(b,it.id,['Input','Foreground: '+it.fg,'Background: '+it.bg,'Style: '+it.style],4,480,272,[1,2,3],true);
+});
+
+// Copy citation
+document.getElementById('copyBib').onclick=async function(){
+  const entry=document.getElementById('bibEntry').textContent;
+  try{
+    await navigator.clipboard.writeText(entry);
+    this.textContent='Copied';
+    setTimeout(()=>{ this.textContent='Copy'; },1600);
+  }catch(_){
+    const range=document.createRange(); range.selectNodeContents(document.getElementById('bibEntry'));
+    const selection=getSelection(); selection.removeAllRanges(); selection.addRange(range);
+    this.textContent='Selected';
+  }
+};
+</script>
+</body>
+</html>
