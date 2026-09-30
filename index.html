@@ -125,11 +125,11 @@ footer{color:var(--muted);font-size:.85rem;text-align:center;padding:40px 0 60px
 
 <nav class="toc"><div class="wrap">
   <a class="active" aria-current="location" href="#overview">Overview</a>
-  <a href="#dynamics">Dynamics editing</a>
+  <a href="#dynamics">Dynamics Editing</a>
   <a href="#retiming">Retiming</a>
-  <a href="#appearance">Appearance re-rendering</a>
-  <a href="#renderer">Appearance comparison</a>
-  <a href="#editor">Dynamics comparison</a>
+  <a href="#appearance">Appearance Re-Rendering</a>
+  <a href="#renderer">Appearance Comparison</a>
+  <a href="#editor">Dynamics Comparison</a>
   <a href="#bibtex">BibTeX</a>
 </div></nav>
 
@@ -140,11 +140,11 @@ footer{color:var(--muted);font-size:.85rem;text-align:center;padding:40px 0 60px
   <p class="cap">One representation, three kinds of control. <b>Left:</b> dynamics editing (the dog still pounces on its toy, but the toy is no longer torn apart and stays intact). <b>Middle:</b> training-free retiming (the same run played at 0.5&times;). <b>Right:</b> re-rendering (the same whisking motion performed by robotic arms). Top row: source video. Bottom row: RVD.</p>
 
   <div id="methodOverview">
-    <h2 style="margin-top:34px">Method overview</h2>
+    <h2 style="margin-top:34px">Method Overview</h2>
     <p class="lead">RVD learns a compact representation of <em>how a video changes</em>, then edits that representation directly.</p>
     <div class="method-steps">
       <article class="method-step">
-        <span class="step-num">1</span><h3>Learn dynamics through reconstruction</h3>
+        <span class="step-num">1</span><h3>Learn Dynamics Through Reconstruction</h3>
         <p>A dynamics encoder compresses the source video into a dynamics token. A renderer must reconstruct the video using this dynamics token together with the first frame, which already provides the scene's appearance. This encourages the dynamics token to preserve motion and temporal evolution while leaving visual context to the first frame.</p>
         <div class="compact-stat" aria-label="The dynamics token contains 564 times fewer values than the raw video">
           <div class="compact-ratio"><strong>564&times;</strong><span>fewer values</span></div>
@@ -155,7 +155,7 @@ footer{color:var(--muted);font-size:.85rem;text-align:center;padding:40px 0 60px
         </div>
       </article>
       <article class="method-step">
-        <span class="step-num">2</span><h3>Edit in the learned dynamics space</h3>
+        <span class="step-num">2</span><h3>Edit In The Learned Dynamics Space</h3>
         <p>A language-guided editor changes the compact dynamics token according to an instruction, such as making an object remain intact or turning a run into a walk. The same renderer combines the edited dynamics token with the desired visual context to generate a video with new dynamics.</p>
       </article>
     </div>
@@ -164,25 +164,25 @@ footer{color:var(--muted);font-size:.85rem;text-align:center;padding:40px 0 60px
 </section>
 
 <section id="dynamics">
-  <h2>Video Dynamics Editing by RVD</h2>
+  <h2>Video Dynamics Editing By RVD</h2>
   <p class="lead">Additional instruction-driven dynamics edits across edit families: state changes (open/closed, cut/whole, broken/intact), interactions (hold/throw), locomotion (walk/run, avoiding an obstacle), and animal behavior (active/resting).</p>
   <div class="grid2" id="dynamicsGrid"></div>
 </section>
 
 <section id="retiming">
-  <h2>Training-Free Retiming in Dynamics-Token Space</h2>
+  <h2>Training-Free Retiming In Dynamics-Token Space</h2>
   <p class="lead">Because the dynamics token keeps an explicit temporal axis, speed can be changed by <b>resampling the dynamics token over time</b>. No editor and no extra training are used, and the renderer is the same frozen one. <b>0.5&times;</b> stretches the dynamics token (nearest-neighbor resampling followed by light temporal smoothing), so the clip covers only the first half of the original motion. <b>2&times;</b> subsamples every other dynamics-token step, so the full motion is completed in the first half of the clip. All four panels have the same length and play in sync: compare how far the motion has progressed at the same moment.</p>
   <div class="stack" id="retimingStack"></div>
 </section>
 
 <section id="appearance">
-  <h2>Appearance-Controlled Re-Rendering by RVD</h2>
+  <h2>Appearance-Controlled Re-Rendering By RVD</h2>
   <p class="lead">For each source video, the <b>same</b> dynamics token is rendered under three new visual contexts: a new foreground subject, a new background, and a new global style. The motion, including its timing, should match the source in all three.</p>
   <div class="stack" id="appearanceStack"></div>
 </section>
 
 <section id="renderer">
-  <h2>Appearance re-rendering: comparison with baselines</h2>
+  <h2>Appearance Re-Rendering: Comparison With Baselines</h2>
   <p class="lead">The dynamics token of the source video is kept <b>fixed</b>; only the visual context (edited first frame and caption) changes. RVD should change the foreground, background, or style while reproducing the source motion and its timing exactly. Watch whether each method keeps the original motion, including hand trajectories, gait phase, and head turns, and whether it stays temporally stable.</p>
   <div class="tabs" id="rendererTabs"></div>
   <div class="vbox" id="rendererBox"></div>
@@ -190,7 +190,7 @@ footer{color:var(--muted);font-size:.85rem;text-align:center;padding:40px 0 60px
 </section>
 
 <section id="editor">
-  <h2>Video dynamics editing: comparison with baselines</h2>
+  <h2>Video Dynamics Editing: Comparison With Baselines</h2>
   <p class="lead">Here the instruction asks to change <b>how the scene evolves</b>, not how it looks. RVD edits the dynamics token with the language-guided editor and renders it in the source scene. Appearance editors tend to reproduce the source motion, or they drift in identity and scene.</p>
   <div class="tabs" id="editorTabs"></div>
   <div class="vbox" id="editorBox"></div>
