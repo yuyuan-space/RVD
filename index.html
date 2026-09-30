@@ -33,14 +33,14 @@ h1{position:relative;font-size:3rem;line-height:1.08;margin:0 0 20px;letter-spac
 .project-links a.secondary:hover{color:var(--accent);border-color:rgba(91,92,226,.4)}
 .project-links small{font-size:.73rem;font-weight:500;color:inherit;opacity:.78}
 nav.toc{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.92);backdrop-filter:blur(9px);border-bottom:1px solid var(--line)}
-nav.toc .wrap{display:flex;flex-wrap:wrap;gap:4px 18px;align-items:center;padding-block:10px}
-nav.toc a{color:var(--muted);text-decoration:none;font-size:.9rem;white-space:nowrap}
-nav.toc a:hover{color:var(--accent)}
+nav.toc .wrap{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;padding-block:8px}
+nav.toc a{color:var(--muted);text-decoration:none;font-size:.88rem;font-weight:560;white-space:nowrap;padding:6px 10px;border-radius:8px;transition:color .18s ease,background .18s ease,box-shadow .18s ease,transform .18s ease}
+nav.toc a:hover{color:var(--accent);background:var(--accent-soft);transform:translateY(-1px)}
+nav.toc a.active{color:#fff;background:linear-gradient(135deg,var(--accent),#7654e8);box-shadow:0 4px 12px rgba(91,92,226,.22)}
 button{font:inherit;cursor:pointer}
 section{scroll-margin-top:64px;padding:46px 0 10px;border-top:1px solid var(--line);margin-top:30px}
 section:first-of-type{border-top:0}
 h2{font-size:1.6rem;margin:0 0 6px;text-align:center}
-h2 .num{color:var(--accent);margin-right:8px}
 .lead{color:var(--muted);max-width:900px;margin:0 auto 18px;text-align:center}
 .note{font-size:.88rem;color:var(--muted);background:var(--soft);border-left:3px solid var(--accent);padding:8px 12px;margin:10px 0 18px;border-radius:0 6px 6px 0}
 .vbox{position:relative;width:100%;background:#fff;line-height:0;border-radius:10px;overflow:hidden;box-shadow:0 5px 18px rgba(49,45,104,.06)}
@@ -66,7 +66,25 @@ h2 .num{color:var(--accent);margin-right:8px}
 .stack{display:flex;flex-direction:column;gap:30px}
 .figure{max-width:760px;margin:0 auto}
 .figure img{width:100%;height:auto;border:1px solid var(--line);border-radius:12px;box-shadow:0 10px 30px rgba(49,45,104,.08)}
+.method-steps{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:960px;margin:18px auto 22px;text-align:left}
+.method-step{position:relative;padding:18px 20px 17px;border:1px solid var(--line);border-radius:13px;background:#fff;box-shadow:0 7px 22px rgba(49,45,104,.06)}
+.method-step:first-child{border-top:3px solid var(--accent)}
+.method-step:last-child{border-top:3px solid var(--accent-2)}
+.method-step .step-num{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;margin-right:8px;border-radius:50%;background:var(--accent-soft);color:var(--accent);font-size:.78rem;font-weight:750}
+.method-step:last-child .step-num{background:#fff0ec;color:var(--accent-2)}
+.method-step h3{display:inline;font-size:1.02rem}
+.method-step p{margin:8px 0 0;color:var(--muted);font-size:.94rem;line-height:1.55}
+.compact-stat{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:14px;margin-top:14px;padding:12px 14px;border:1px solid rgba(91,92,226,.12);border-radius:10px;background:linear-gradient(135deg,#f0efff,#f8f7ff);color:#343653}
+.compact-ratio{padding-right:14px;border-right:1px solid rgba(91,92,226,.18);text-align:center;line-height:1}
+.compact-ratio strong{display:block;color:var(--accent);font-size:1.65rem;letter-spacing:-.04em}
+.compact-ratio span{display:block;margin-top:5px;color:var(--muted);font-size:.68rem;font-weight:650;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap}
+.compact-dims{display:grid;gap:4px;font-size:.78rem;line-height:1.3}
+.compact-dims span{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+.compact-dims b{color:#3f40bd;font-weight:720;white-space:nowrap}
+.compact-dims em{color:var(--muted);font-style:normal;text-align:right}
 .cap{font-size:.88rem;color:var(--muted);margin:6px auto 0;text-align:center;max-width:960px}
+#teaserBox,#teaserBox + .vbar{max-width:1120px;margin-left:auto;margin-right:auto}
+#teaserBox ~ .cap{max-width:900px}
 .three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:18px 0 4px}
 .three div{background:var(--soft);border-radius:8px;padding:12px 14px;font-size:.92rem}
 .three b{display:block;margin-bottom:2px}
@@ -78,7 +96,7 @@ summary{cursor:pointer}
 .copy-bib:hover{background:rgba(255,255,255,.16)}
 footer{color:var(--muted);font-size:.85rem;text-align:center;padding:40px 0 60px;border-top:1px solid var(--line);margin-top:40px}
 @media (max-width:1050px){.authors{flex-wrap:wrap;gap:5px 18px;max-width:900px;white-space:normal}}
-@media (max-width:860px){nav.toc{position:static}.grid2,.three{grid-template-columns:1fr}header.hero{padding:28px 14px 18px}.hero-inner{padding:28px 17px 24px;border-radius:18px}h1{font-size:2.05rem}.authors{font-size:1rem}.tldr{text-align:left;font-size:.96rem;padding:13px 15px}.project-links{flex-wrap:wrap}.lab{font-size:.62rem;padding:2px 4px}.bibtex-wrap pre{padding:18px 16px;padding-top:52px;font-size:12px}.copy-bib{right:10px;top:10px}}
+@media (max-width:860px){nav.toc{position:static}.grid2,.three,.method-steps{grid-template-columns:1fr}header.hero{padding:28px 14px 18px}.hero-inner{padding:28px 17px 24px;border-radius:18px}h1{font-size:2.05rem}.authors{font-size:1rem}.tldr{text-align:left;font-size:.96rem;padding:13px 15px}.project-links{flex-wrap:wrap}.lab{font-size:.62rem;padding:2px 4px}.bibtex-wrap pre{padding:18px 16px;padding-top:52px;font-size:12px}.copy-bib{right:10px;top:10px}}
 </style>
 </head>
 <body>
@@ -98,22 +116,20 @@ footer{color:var(--muted);font-size:.85rem;text-align:center;padding:40px 0 60px
     </div>
     <p class="affiliations"><sup>1</sup>Adobe &nbsp;&nbsp; <sup>2</sup>Purdue University</p>
     <div class="project-links" aria-label="Project resources">
-      <a href="https://arxiv.org/abs/2606.00499" target="_blank" rel="noopener" aria-label="arXiv paper coming soon">arXiv <small>soon</small> <span aria-hidden="true">&#8599;</span></a>
-      <a class="secondary" href="https://github.com/pandayuanyu/RVD" target="_blank" rel="noopener">Code <span aria-hidden="true">&#8599;</span></a>
+      <a href="https://arxiv.org/abs/2609.36496" target="_blank" rel="noopener" aria-label="Read the paper on arXiv">arXiv <span aria-hidden="true">&#8599;</span></a>
+      <a class="secondary" href="https://github.com/pandayuanyu/RVD" target="_blank" rel="noopener">Code <small>soon</small> <span aria-hidden="true">&#8599;</span></a>
     </div>
-    <p class="tldr"><strong>TL;DR</strong>RVD turns a video's dynamics into an editable token: change what happens, retime how it unfolds, or replay the same motion in a completely new visual world.</p>
+    <p class="tldr"><strong>TL;DR</strong>RVD turns a video's dynamics into a compact, editable dynamics token: change what happens, retime how it unfolds, or replay the same motion in a completely new visual world.</p>
   </div>
 </header>
 
 <nav class="toc"><div class="wrap">
-  <a href="https://arxiv.org/abs/2606.00499" target="_blank" rel="noopener">arXiv</a>
-  <a href="https://github.com/pandayuanyu/RVD" target="_blank" rel="noopener">Code</a>
-  <a href="#overview">Overview</a>
-  <a href="#renderer">Re-rendering vs. baselines</a>
-  <a href="#editor">Dynamics editing vs. baselines</a>
-  <a href="#dynamics">More dynamics edits</a>
+  <a class="active" aria-current="location" href="#overview">Overview</a>
+  <a href="#dynamics">Dynamics editing</a>
   <a href="#retiming">Retiming</a>
-  <a href="#appearance">More re-rendering</a>
+  <a href="#appearance">Appearance re-rendering</a>
+  <a href="#renderer">Appearance comparison</a>
+  <a href="#editor">Dynamics comparison</a>
   <a href="#bibtex">BibTeX</a>
 </div></nav>
 
@@ -123,16 +139,50 @@ footer{color:var(--muted);font-size:.85rem;text-align:center;padding:40px 0 60px
   <div class="vbox" id="teaserBox"></div>
   <p class="cap">One representation, three kinds of control. <b>Left:</b> dynamics editing (the dog still pounces on its toy, but the toy is no longer torn apart and stays intact). <b>Middle:</b> training-free retiming (the same run played at 0.5&times;). <b>Right:</b> re-rendering (the same whisking motion performed by robotic arms). Top row: source video. Bottom row: RVD.</p>
 
-  <!-- Keep this block ready for the arXiv release. Remove `hidden` to restore it. -->
-  <div id="methodOverview" hidden>
-    <h2 style="margin-top:34px"><span class="num">0</span>Method overview</h2>
-    <p class="lead">RVD splits a video into two parts: its <b>visual context</b> (the first frame and a caption: what the scene looks like) and a compact <b>dynamics token</b> (how the scene moves and changes over time). This split is learned by <b>self-supervised video reconstruction</b>: a renderer must rebuild the original clip from the first frame plus the token. The first frame already gives the appearance, so the token only has to carry the motion. A language-guided <b>editor</b> can then change this compact token (for example, "cancel the cut" or "slow the run to a walk"), and the renderer turns the edited token back into a video.</p>
+  <div id="methodOverview">
+    <h2 style="margin-top:34px">Method overview</h2>
+    <p class="lead">RVD learns a compact representation of <em>how a video changes</em>, then edits that representation directly.</p>
+    <div class="method-steps">
+      <article class="method-step">
+        <span class="step-num">1</span><h3>Learn dynamics through reconstruction</h3>
+        <p>A dynamics encoder compresses the source video into a dynamics token. A renderer must reconstruct the video using this dynamics token together with the first frame, which already provides the scene's appearance. This encourages the dynamics token to preserve motion and temporal evolution while leaving visual context to the first frame.</p>
+        <div class="compact-stat" aria-label="The dynamics token contains 564 times fewer values than the raw video">
+          <div class="compact-ratio"><strong>564&times;</strong><span>fewer values</span></div>
+          <div class="compact-dims">
+            <span><b>21 &times; 8 &times; 8 &times; 128</b><em>Dynamics token</em></span>
+            <span><b>81 &times; 832 &times; 480 &times; 3</b><em>Raw video</em></span>
+          </div>
+        </div>
+      </article>
+      <article class="method-step">
+        <span class="step-num">2</span><h3>Edit in the learned dynamics space</h3>
+        <p>A language-guided editor changes the compact dynamics token according to an instruction, such as making an object remain intact or turning a run into a walk. The same renderer combines the edited dynamics token with the desired visual context to generate a video with new dynamics.</p>
+      </article>
+    </div>
     <div class="figure"><img src="images/method.png" alt="RVD method overview: (a) dynamics-conditioned renderer, (b) dynamics-token editor"></div>
   </div>
 </section>
 
+<section id="dynamics">
+  <h2>Video Dynamics Editing by RVD</h2>
+  <p class="lead">Additional instruction-driven dynamics edits across edit families: state changes (open/closed, cut/whole, broken/intact), interactions (hold/throw), locomotion (walk/run, avoiding an obstacle), and animal behavior (active/resting).</p>
+  <div class="grid2" id="dynamicsGrid"></div>
+</section>
+
+<section id="retiming">
+  <h2>Training-Free Retiming in Dynamics-Token Space</h2>
+  <p class="lead">Because the dynamics token keeps an explicit temporal axis, speed can be changed by <b>resampling the dynamics token over time</b>. No editor and no extra training are used, and the renderer is the same frozen one. <b>0.5&times;</b> stretches the dynamics token (nearest-neighbor resampling followed by light temporal smoothing), so the clip covers only the first half of the original motion. <b>2&times;</b> subsamples every other dynamics-token step, so the full motion is completed in the first half of the clip. All four panels have the same length and play in sync: compare how far the motion has progressed at the same moment.</p>
+  <div class="stack" id="retimingStack"></div>
+</section>
+
+<section id="appearance">
+  <h2>Appearance-Controlled Re-Rendering by RVD</h2>
+  <p class="lead">For each source video, the <b>same</b> dynamics token is rendered under three new visual contexts: a new foreground subject, a new background, and a new global style. The motion, including its timing, should match the source in all three.</p>
+  <div class="stack" id="appearanceStack"></div>
+</section>
+
 <section id="renderer">
-  <h2><span class="num">1</span>Appearance-controlled re-rendering: comparison with baselines</h2>
+  <h2>Appearance re-rendering: comparison with baselines</h2>
   <p class="lead">The dynamics token of the source video is kept <b>fixed</b>; only the visual context (edited first frame and caption) changes. RVD should change the foreground, background, or style while reproducing the source motion and its timing exactly. Watch whether each method keeps the original motion, including hand trajectories, gait phase, and head turns, and whether it stays temporally stable.</p>
   <div class="tabs" id="rendererTabs"></div>
   <div class="vbox" id="rendererBox"></div>
@@ -140,29 +190,11 @@ footer{color:var(--muted);font-size:.85rem;text-align:center;padding:40px 0 60px
 </section>
 
 <section id="editor">
-  <h2><span class="num">2</span>Video dynamics editing: comparison with baselines</h2>
+  <h2>Video dynamics editing: comparison with baselines</h2>
   <p class="lead">Here the instruction asks to change <b>how the scene evolves</b>, not how it looks. RVD edits the dynamics token with the language-guided editor and renders it in the source scene. Appearance editors tend to reproduce the source motion, or they drift in identity and scene.</p>
   <div class="tabs" id="editorTabs"></div>
   <div class="vbox" id="editorBox"></div>
   <p class="instr" id="editorInstr"></p>
-</section>
-
-<section id="dynamics">
-  <h2><span class="num">3</span>More Video Dynamics Edits by RVD</h2>
-  <p class="lead">Additional instruction-driven dynamics edits across edit families: state changes (open/closed, cut/whole, broken/intact), interactions (hold/throw), locomotion (walk/run, avoiding an obstacle), and animal behavior (active/resting).</p>
-  <div class="grid2" id="dynamicsGrid"></div>
-</section>
-
-<section id="retiming">
-  <h2><span class="num">4</span>Training-Free Retiming in Dynamics-Token Space</h2>
-  <p class="lead">Because the dynamics token keeps an explicit temporal axis, speed can be changed by <b>resampling the token over time</b>. No editor and no extra training are used, and the renderer is the same frozen one. <b>0.5&times;</b> stretches the token (nearest-neighbor resampling followed by light temporal smoothing), so the clip covers only the first half of the original motion. <b>2&times;</b> subsamples every other token step, so the full motion is completed in the first half of the clip. All four panels have the same length and play in sync: compare how far the motion has progressed at the same moment.</p>
-  <div class="stack" id="retimingStack"></div>
-</section>
-
-<section id="appearance">
-  <h2><span class="num">5</span>More Appearance-Controlled Re-Rendering by RVD</h2>
-  <p class="lead">For each source video, the <b>same</b> dynamics token is rendered under three new visual contexts: a new foreground subject, a new background, and a new global style. The motion, including its timing, should match the source in all three.</p>
-  <div class="stack" id="appearanceStack"></div>
 </section>
 
 <section id="bibtex">
@@ -173,7 +205,7 @@ footer{color:var(--muted);font-size:.85rem;text-align:center;padding:40px 0 60px
     <pre><code id="bibEntry">@article{Yuan_2026_RVD,
   title={{Reimagine Video Dynamics}},
   author={Yuan, Yu and Lu, Yawen and Song, Guoxian and Duarte, Kevin and Kalarot, Ratheesh and Chang, Di and Wang, Xijun and Chan, Stanley H.},
-  journal={arXiv preprint arXiv:},
+  journal={arXiv preprint arXiv:2609.36496},
   year={2026}
 }</code></pre>
   </div>
@@ -283,6 +315,27 @@ META.appearance.forEach((it,i)=>{
   const b=document.createElement('div'); b.className='vbox'; c.appendChild(b); as.appendChild(c);
   vbox(b,it.id,['Input','Foreground: '+it.fg,'Background: '+it.bg,'Style: '+it.style],4,480,272,[1,2,3],true);
 });
+
+// Keep the centered navigation visibly tied to the section in view.
+const tocLinks=[...document.querySelectorAll('nav.toc a[href^="#"]')];
+const tocSections=tocLinks.map(link=>document.querySelector(link.getAttribute('href'))).filter(Boolean);
+function updateToc(){
+  const marker=window.scrollY+window.innerHeight*.3;
+  let current=tocSections[0]?.id;
+  tocSections.forEach(section=>{ if(section.offsetTop<=marker) current=section.id; });
+  tocLinks.forEach(link=>{
+    const active=link.getAttribute('href')===`#${current}`;
+    link.classList.toggle('active',active);
+    if(active) link.setAttribute('aria-current','location');
+    else link.removeAttribute('aria-current');
+  });
+}
+tocLinks.forEach(link=>link.addEventListener('click',()=>{
+  tocLinks.forEach(item=>item.classList.toggle('active',item===link));
+}));
+window.addEventListener('scroll',updateToc,{passive:true});
+window.addEventListener('resize',updateToc);
+updateToc();
 
 // Copy citation
 document.getElementById('copyBib').onclick=async function(){
